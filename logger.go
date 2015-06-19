@@ -10,6 +10,8 @@ type Logger struct {
     Verbose bool
 }
 
+const LOG_FORMAT = "  > %s\n"
+
 func NewLogger() *Logger {
     return &Logger{
         false,

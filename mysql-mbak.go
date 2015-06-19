@@ -12,8 +12,6 @@ var (
     logger      *Logger
 )
 
-const LOG_FORMAT = "  > %s\n"
-
 func init() {
     flag.BoolVar(&verbose, "v", false, "enable verbose logging")
     flag.BoolVar(&verbose, "verbose", false, "enable verbose logging")

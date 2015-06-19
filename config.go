@@ -14,7 +14,9 @@ type Config struct {
 
 type ConnectionConfig struct {
     S3Bucket    string      `json:"s3_bucket"`
+    LocalDir    string      `json:"local_directory"`
     Hostname    string      `json:"hostname"`
+    Port        uint16      `json:"port"`
     Username    string      `json:"username"`
     Password    string      `json:"password"`
     Databases   []string    `json:"databases"`

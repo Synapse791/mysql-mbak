@@ -37,9 +37,9 @@ func main() {
         logger.Fatal(confErr.Error())
     }
 
-    for _ , conn := range config.Connections {
-        logger.Debug(conn.Hostname)
-        logger.Info(conn.Username)
+    bkpErr := RunBackupProcess()
+    if bkpErr != nil {
+        logger.Fatal(bkpErr.Error())
     }
 
 }

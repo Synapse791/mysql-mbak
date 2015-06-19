@@ -22,9 +22,8 @@ func init() {
 func main() {
     flag.Parse()
 
-    if showHelp {
-        Usage()
-    }
+    if showHelp { Usage() }
+
 }
 
 func Usage() {
@@ -36,11 +35,18 @@ func Usage() {
 }
 
 func Log(line string) {
-    fmt.Println(line)
+    fmt.Fprintf(os.Stdout, "%s\n", line)
+    return
 }
 
 func VerboseLog(line string) {
     if verbose {
-        fmt.Println(line)
+        fmt.Fprintf(os.Stdout, "%s\n", line)
     }
+    return
+}
+
+func LogFatal(line string) {
+    fmt.Fprintf(os.Stderr, "%s\n", line)
+    os.Exit(1)
 }

@@ -12,10 +12,14 @@ type Logger struct {
 
 const LOG_FORMAT = "  > %s\n"
 
-func NewLogger(v bool) *Logger {
+func NewLogger() *Logger {
     return &Logger{
-        v,
+        false,
     }
+}
+
+func (l Logger) SetVerbose(v bool) {
+    l.Verbose = v
 }
 
 func (l Logger) Fatal(line string) {

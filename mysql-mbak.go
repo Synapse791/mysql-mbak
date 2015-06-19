@@ -23,7 +23,8 @@ func init() {
 func main() {
     flag.Parse()
 
-    logger = NewLogger(verbose)
+    logger = NewLogger()
+    logger.SetVerbose(verbose)
 
     fmt.Println("MySQL mBak")
 

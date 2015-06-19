@@ -11,6 +11,8 @@ var (
     showHelp    bool
 )
 
+const LOG_FORMAT = "  > %s\n"
+
 func init() {
     flag.BoolVar(&verbose, "v", false, "enable verbose logging")
     flag.BoolVar(&verbose, "verbose", false, "enable verbose logging")
@@ -22,12 +24,13 @@ func init() {
 func main() {
     flag.Parse()
 
+    fmt.Println("MySQL mBak")
+
     if showHelp { Usage() }
 
 }
 
 func Usage() {
-    fmt.Println("MySQL mBak")
     fmt.Println("  Backup multiple MySQL hosts and Databases from one place\n")
     fmt.Println("Usage:")
     flag.PrintDefaults()
@@ -35,18 +38,18 @@ func Usage() {
 }
 
 func Log(line string) {
-    fmt.Fprintf(os.Stdout, "%s\n", line)
+    fmt.Fprintf(os.Stdout, LOG_FORMAT, line)
     return
 }
 
 func VerboseLog(line string) {
     if verbose {
-        fmt.Fprintf(os.Stdout, "%s\n", line)
+        fmt.Fprintf(os.Stdout, LOG_FORMAT, line)
     }
     return
 }
 
 func LogFatal(line string) {
-    fmt.Fprintf(os.Stderr, "%s\n", line)
+    fmt.Fprintf(os.Stderr, LOG_FORMAT, line)
     os.Exit(1)
 }

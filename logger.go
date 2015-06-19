@@ -12,9 +12,9 @@ type Logger struct {
 
 const LOG_FORMAT = "  > %s\n"
 
-func NewLogger() *Logger {
+func NewLogger(v bool) *Logger {
     return &Logger{
-        false,
+        v,
     }
 }
 

@@ -18,12 +18,12 @@ func init() {
 
     flag.BoolVar(&showHelp, "h", false, "print usage information")
     flag.BoolVar(&showHelp, "help", false, "print usage information")
-
-    logger = NewLogger()
 }
 
 func main() {
     flag.Parse()
+
+    logger = NewLogger(verbose)
 
     fmt.Println("MySQL mBak")
 

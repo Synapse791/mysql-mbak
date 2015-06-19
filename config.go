@@ -3,6 +3,8 @@ package main
 import (
     "os"
     "fmt"
+    "io/ioutil"
+    "encoding/json"
 )
 
 type Config struct {
@@ -11,7 +13,7 @@ type Config struct {
 }
 
 type ConnectionConfig struct {
-    S3Bucket    string      `json:"s3_upload"`
+    S3Bucket    string      `json:"s3_bucket"`
     Hostname    string      `json:"hostname"`
     Username    string      `json:"username"`
     Password    string      `json:"password"`
@@ -44,6 +46,16 @@ func ReadHostsConfig(config *Config) error {
         return fmt.Errorf("ERROR: config file %s not found", hostsFile)
     }
 
+    rawHosts, readErr := ioutil.ReadFile(hostsFile)
+    if readErr != nil {
+        return fmt.Errorf("ERROR: failed to read config file %s", hostsFile)
+    }
+
+    jsonErr := json.Unmarshal(rawHosts, &config.Connections)
+    if jsonErr != nil {
+        return fmt.Errorf("ERROR: invalid json in file %s", hostsFile)
+    }
+
     return nil
 }
 
@@ -52,7 +64,7 @@ func ReadS3Config(config *Config) error {
     s3Check := false
 
     for _, conn := range config.Connections {
-        if conn.S3Bucket != nil {
+        if conn.S3Bucket != "" {
             s3Check = true
         }
     }
@@ -61,6 +73,16 @@ func ReadS3Config(config *Config) error {
 
     if _, err := os.Stat(s3File); os.IsNotExist(err) {
         return fmt.Errorf("ERROR: s3_bucket set but %s config file not found", s3File)
+    }
+
+    rawS3, readErr := ioutil.ReadFile(s3File)
+    if readErr != nil {
+        return fmt.Errorf("ERROR: failed to read config file %s", s3File)
+    }
+
+    jsonErr := json.Unmarshal(rawS3, &config.S3Config)
+    if jsonErr != nil {
+        return fmt.Errorf("ERROR: invalid json in file %s", s3File)
     }
 
     return nil

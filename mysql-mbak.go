@@ -34,3 +34,13 @@ func Usage() {
     flag.PrintDefaults()
     os.Exit(0)
 }
+
+func Log(line string) {
+    fmt.Println(line)
+}
+
+func VerboseLog(line string) {
+    if verbose {
+        fmt.Println(line)
+    }
+}

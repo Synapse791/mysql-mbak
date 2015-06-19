@@ -28,14 +28,12 @@ type S3Config struct {
 
 const CONF_DIR = "/etc/mysql-mbak"
 
-func GetConfig() (Config, error) {
+func SetConfig(config *Config) error {
 
-    var config Config
+    if err := ReadHostsConfig(config); err != nil { return err }
+    if err := ReadS3Config(config);    err != nil { return err }
 
-    if err := ReadHostsConfig(&config); err != nil { return config, err }
-    if err := ReadS3Config(&config);    err != nil { return config, err }
-
-    return config, nil
+    return nil
 
 }
 

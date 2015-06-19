@@ -18,7 +18,7 @@ func NewLogger() *Logger {
     }
 }
 
-func (l Logger) SetVerbose(v bool) {
+func (l *Logger) SetVerbose(v bool) {
     l.Verbose = v
 }
 

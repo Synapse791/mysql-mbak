@@ -33,7 +33,7 @@ func (l Logger) Info(line string) {
 }
 
 func (l Logger) Debug(line string) {
-    if verbose {
+    if l.Verbose {
         fmt.Fprintf(os.Stdout, LOG_FORMAT, line)
     }
     return

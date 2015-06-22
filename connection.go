@@ -19,7 +19,7 @@ func CheckAllConnections() error {
     return nil
 }
 
-func CheckTCPConnection(ip string, port uint16) error {
+func CheckTCPConnection(ip string, port int) error {
 
     addr := fmt.Sprintf("%s:%d", ip, port)
 

@@ -3,18 +3,25 @@ package main
 import (
     "net"
     "fmt"
+    "database/sql"
+    _ "github.com/go-sql-driver/mysql"
 )
 
 func CheckAllConnections() error {
 
     logger.Info("checking connections")
 
-    for c, conn := range config.Connections {
-        logger.Debug("checking connection %d: %s:%d", c, conn.Hostname, conn.Port)
+    for _, conn := range config.Connections {
+        logger.Debug("checking connection and login for %s:%d", conn.Hostname, conn.Port)
         if err := CheckTCPConnection(conn.Hostname, conn.Port); err != nil {
             return err
         }
+        if err := CheckMysqlLogin(conn); err != nil {
+            return err
+        }
     }
+
+
 
     return nil
 }
@@ -38,6 +45,26 @@ func CheckTCPConnection(ip string, port int) error {
     logger.Info("OK: %s", addr)
 
     defer conn.Close()
+
+    return nil
+}
+
+func CheckMysqlLogin(host ConnectionConfig) error {
+
+    dsnBase := fmt.Sprintf("%s:%s@tcp(%s:%d)", host.Username, host.Password, host.Hostname, host.Port)
+
+    for c, db := range host.Databases {
+        logger.Debug("checking login for DB%d: %s", c, db)
+        dsnFull := fmt.Sprintf("%s/%s", dsnBase, db)
+        db, err := sql.Open("mysql", dsnFull)
+        if err != nil { return err }
+
+        defer db.Close()
+
+        _, qErr := db.Query("SHOW TABLES")
+        if qErr != nil { return qErr }
+
+    }
 
     return nil
 }

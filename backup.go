@@ -26,18 +26,18 @@ func RunBackup(host ConnectionConfig, dbName string) error {
         s3 := BuildS3Config(host.S3Bucket)
 
         if err := mysql.Export().To(host.S3Bucket, s3); err != nil {
-            return fmt.Errorf("ERROR: failed to run backup for %s:%d/%s\n%s", host.Hostname, host.Port, dbName, err.Error())
+            return fmt.Errorf("failed to run backup for %s:%d/%s\n%s", host.Hostname, host.Port, dbName, err.Error())
         }
 
     } else if host.LocalDir != "" {
 
         if err := mysql.Export().To(host.LocalDir, nil); err != nil {
-            return fmt.Errorf("ERROR: failed to run backup for %s:%d/%s\n%s", host.Hostname, host.Port, dbName, err.Error())
+            return fmt.Errorf("failed to run backup for %s:%d/%s\n%s", host.Hostname, host.Port, dbName, err.Error())
         }
 
     } else {
 
-        return fmt.Errorf("ERROR: no storage destination specified for %s:%d/%s", host.Hostname, host.Port, dbName)
+        return fmt.Errorf("no storage destination specified for %s:%d/%s", host.Hostname, host.Port, dbName)
 
     }
 

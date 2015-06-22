@@ -10,7 +10,7 @@ type Logger struct {
     Verbose bool
 }
 
-const LOG_FORMAT = "  > %s\n"
+const LOG_FORMAT = "  > %s: %s\n"
 
 func NewLogger() *Logger {
     return &Logger{
@@ -23,21 +23,24 @@ func (l *Logger) SetVerbose(v bool) {
 }
 
 func (l Logger) Fatal(line string, args... interface{}) {
+    level := "FATAL"
     fLine := fmt.Sprintf(line, args...)
-    fmt.Fprintf(os.Stderr, LOG_FORMAT, fLine)
+    fmt.Fprintf(os.Stderr, LOG_FORMAT, level, fLine)
     os.Exit(1)
 }
 
 func (l Logger) Info(line string, args... interface{}) {
+    level := "INFO"
     fLine := fmt.Sprintf(line, args...)
-    fmt.Fprintf(os.Stdout, LOG_FORMAT, fLine)
+    fmt.Fprintf(os.Stdout, LOG_FORMAT, level, fLine)
     return
 }
 
 func (l Logger) Debug(line string, args... interface{}) {
     if l.Verbose {
+        level := "DEBUG"
         fLine := fmt.Sprintf(line, args...)
-        fmt.Fprintf(os.Stdout, LOG_FORMAT, fLine)
+        fmt.Fprintf(os.Stdout, LOG_FORMAT, level, fLine)
     }
     return
 }

@@ -43,17 +43,17 @@ func ReadHostsConfig(config *Config) error {
     hostsFile   := fmt.Sprintf("%s/hosts.json", CONF_DIR)
 
     if _, err := os.Stat(hostsFile); err != nil {
-        return fmt.Errorf("ERROR: config file %s not found", hostsFile)
+        return fmt.Errorf("config file %s not found", hostsFile)
     }
 
     rawHosts, readErr := ioutil.ReadFile(hostsFile)
     if readErr != nil {
-        return fmt.Errorf("ERROR: failed to read config file %s", hostsFile)
+        return fmt.Errorf("failed to read config file %s", hostsFile)
     }
 
     jsonErr := json.Unmarshal(rawHosts, &config.Connections)
     if jsonErr != nil {
-        return fmt.Errorf("ERROR: invalid json in file %s", hostsFile)
+        return fmt.Errorf("invalid json in file %s", hostsFile)
     }
 
     return nil
@@ -72,17 +72,17 @@ func ReadS3Config(config *Config) error {
     if s3Check == false { return nil }
 
     if _, err := os.Stat(s3File); os.IsNotExist(err) {
-        return fmt.Errorf("ERROR: s3_bucket set but %s config file not found", s3File)
+        return fmt.Errorf("s3_bucket set but %s config file not found", s3File)
     }
 
     rawS3, readErr := ioutil.ReadFile(s3File)
     if readErr != nil {
-        return fmt.Errorf("ERROR: failed to read config file %s", s3File)
+        return fmt.Errorf("failed to read config file %s", s3File)
     }
 
     jsonErr := json.Unmarshal(rawS3, &config.S3Config)
     if jsonErr != nil {
-        return fmt.Errorf("ERROR: invalid json in file %s", s3File)
+        return fmt.Errorf("invalid json in file %s", s3File)
     }
 
     return nil

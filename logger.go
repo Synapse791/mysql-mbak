@@ -22,19 +22,22 @@ func (l *Logger) SetVerbose(v bool) {
     l.Verbose = v
 }
 
-func (l Logger) Fatal(line string) {
-    fmt.Fprintf(os.Stderr, LOG_FORMAT, line)
+func (l Logger) Fatal(line string, args... interface{}) {
+    fLine := fmt.Sprintf(line, args...)
+    fmt.Fprintf(os.Stderr, LOG_FORMAT, fLine)
     os.Exit(1)
 }
 
-func (l Logger) Info(line string) {
-    fmt.Fprintf(os.Stdout, LOG_FORMAT, line)
+func (l Logger) Info(line string, args... interface{}) {
+    fLine := fmt.Sprintf(line, args...)
+    fmt.Fprintf(os.Stdout, LOG_FORMAT, fLine)
     return
 }
 
-func (l Logger) Debug(line string) {
+func (l Logger) Debug(line string, args... interface{}) {
     if l.Verbose {
-        fmt.Fprintf(os.Stdout, LOG_FORMAT, line)
+        fLine := fmt.Sprintf(line, args...)
+        fmt.Fprintf(os.Stdout, LOG_FORMAT, fLine)
     }
     return
 }

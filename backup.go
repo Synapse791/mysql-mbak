@@ -25,12 +25,12 @@ func RunBackup(host ConnectionConfig, dbName string) error {
 
     mysql := BuildMysqlConfig(host, dbName)
 
-    if host.S3Bucket != "" {
+    if host.S3Bucket != "" && host.S3Path != "" {
 
         s3 := BuildS3Config(host.S3Bucket)
 
         logger.Debug("backing up to s3 bucket: %s", host.S3Bucket)
-        if err := mysql.Export().To(host.S3Bucket, s3); err != nil {
+        if err := mysql.Export().To(host.S3Path, s3); err != nil {
             return fmt.Errorf("failed to run backup for %s:%d/%s\n%s", host.Hostname, host.Port, dbName, err.Error())
         }
 
@@ -43,7 +43,7 @@ func RunBackup(host ConnectionConfig, dbName string) error {
 
     } else {
 
-        return fmt.Errorf("no storage destination specified for %s:%d/%s", host.Hostname, host.Port, dbName)
+        return fmt.Errorf("no storage destination specified for %s:%d/%s. Must spcify (local_directory) or (s3_bucket and s3_path)", host.Hostname, host.Port, dbName)
 
     }
 
@@ -63,6 +63,7 @@ func BuildMysqlConfig(host ConnectionConfig, dbName string) *barkup.MySQL {
 
 func BuildS3Config(bucket string) *barkup.S3 {
     logger.Debug("building s3 config")
+
     return &barkup.S3{
         Region:         config.S3Config.Region,
         AccessKey:      config.S3Config.AccessKey,

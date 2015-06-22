@@ -21,7 +21,7 @@ func RunBackupProcess() error {
 
 func RunBackup(host ConnectionConfig, dbName string) error {
 
-    logger.Debug("backing up %s", dbName)
+    logger.Info("backing up %s", dbName)
 
     mysql := BuildMysqlConfig(host, dbName)
 

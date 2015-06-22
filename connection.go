@@ -9,7 +9,7 @@ import (
 
 func CheckAllConnections() error {
 
-    logger.Info("checking connections")
+    logger.Info("checking connections and login details")
 
     for _, conn := range config.Connections {
         logger.Debug("checking connection and login for %s:%d", conn.Hostname, conn.Port)
@@ -19,9 +19,8 @@ func CheckAllConnections() error {
         if err := CheckMysqlLogin(conn); err != nil {
             return err
         }
+        logger.Info("OK: %s:%d", conn.Hostname, conn.Port)
     }
-
-
 
     return nil
 }
@@ -41,8 +40,6 @@ func CheckTCPConnection(ip string, port int) error {
     if dialErr != nil {
         return fmt.Errorf("failed to connect to %s", addr)
     }
-
-    logger.Info("OK: %s", addr)
 
     defer conn.Close()
 

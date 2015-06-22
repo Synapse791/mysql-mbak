@@ -27,6 +27,8 @@ func main() {
     logger.SetVerbose(verbose)
 
     fmt.Println("MySQL mBak")
+    logger.Debug("verbose mode enabled")
+
 
     if showHelp { logger.Usage() }
 
@@ -35,6 +37,13 @@ func main() {
     confErr = SetConfig(&config)
     if confErr != nil {
         logger.Fatal(confErr.Error())
+    }
+
+    logger.Info("config set")
+
+    checkErr := CheckAllConnections()
+    if checkErr != nil {
+        logger.Fatal(checkErr.Error())
     }
 
     bkpErr := RunBackupProcess()

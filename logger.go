@@ -29,6 +29,13 @@ func (l Logger) Fatal(line string, args... interface{}) {
     os.Exit(1)
 }
 
+func (l Logger) Error(line string, args... interface{}) {
+    level := "ERROR"
+    fLine := fmt.Sprintf(line, args...)
+    fmt.Fprintf(os.Stderr, LOG_FORMAT, level, fLine)
+    return
+}
+
 func (l Logger) Info(line string, args... interface{}) {
     level := " INFO"
     fLine := fmt.Sprintf(line, args...)

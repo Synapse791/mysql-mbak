@@ -21,7 +21,7 @@ func RunBackupProcess() error {
 
 func RunBackup(host ConnectionConfig, dbName string) error {
 
-    logger.Info("backing up %s", dbName)
+    logger.Info("db: %s", dbName)
 
     mysql := BuildMysqlConfig(host, dbName)
 
@@ -62,7 +62,7 @@ func BuildMysqlConfig(host ConnectionConfig, dbName string) *barkup.MySQL {
 }
 
 func BuildS3Config(bucket string) *barkup.S3 {
-    logger.Debug("setting s3 config")
+    logger.Debug("building s3 config")
     return &barkup.S3{
         Region:         config.S3Config.Region,
         AccessKey:      config.S3Config.AccessKey,

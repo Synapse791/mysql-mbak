@@ -51,4 +51,6 @@ func main() {
         logger.Fatal(bkpErr.Error())
     }
 
+    logger.Info("backup complete!")
+
 }

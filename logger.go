@@ -30,7 +30,7 @@ func (l Logger) Fatal(line string, args... interface{}) {
 }
 
 func (l Logger) Info(line string, args... interface{}) {
-    level := "INFO"
+    level := " INFO"
     fLine := fmt.Sprintf(line, args...)
     fmt.Fprintf(os.Stdout, LOG_FORMAT, level, fLine)
     return

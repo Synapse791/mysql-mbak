@@ -5,6 +5,7 @@ import (
     "fmt"
     "io/ioutil"
     "encoding/json"
+    "strings"
 )
 
 type Config struct {
@@ -60,6 +61,28 @@ func ReadHostsConfig(config *Config) error {
     jsonErr := json.Unmarshal(rawHosts, &config.Connections)
     if jsonErr != nil {
         return fmt.Errorf("invalid json in file %s", hostsFile)
+    }
+
+    if err := CheckHostsConfig(); err != nil {
+        return err
+    }
+
+    return nil
+}
+
+func CheckHostsConfig() error {
+    for _, c := range config.Connections {
+        if c.LocalDir != "" && (strings.HasPrefix(c.LocalDir, "/") == false || strings.HasSuffix(c.LocalDir, "/") == false) {
+            return fmt.Errorf("local_directory must start and end with a /")
+        }
+
+        if c.S3Path != "" && (strings.HasPrefix(c.S3Path, "/") == false || strings.HasSuffix(c.S3Path, "/") == false) {
+            return fmt.Errorf("s3_path must start and end with a /")
+        }
+
+        if c.LocalDir == "" && c.S3Bucket == "" && c.S3Path == "" {
+            return fmt.Errorf("missing output location. Must set either local_directory or s3_bucket and s3_path")
+        }
     }
 
     return nil

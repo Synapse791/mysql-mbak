@@ -7,7 +7,6 @@ MySQL mBak is a tool for backing up multiple MySQL databases on multiple hosts. 
 To install, download the latest release from the releases page and move the binary file to the `/usr/bin/` directory. Use the example config files to create your config files in the `/etc/mysql-mbak/` directory.
 
 ```bash
-tar zxf mysql-mbak_VERSION.tar.gz
 sudo mv mysql-mbak/mysql-mbak /usr/bin/
 sudo mkdir /etc/mysql-mbak
 sudo touch /etc/mysql-mbak/hosts.json

@@ -8,8 +8,9 @@ import (
 )
 
 type Config struct {
-	Connections []ConnectionConfig
-	S3Config	S3Config
+    Connections []ConnectionConfig
+    S3Config	S3Config
+//    SMTPConfig  SMTPConfig
 }
 
 type ConnectionConfig struct {
@@ -33,8 +34,9 @@ const CONF_DIR = "/etc/mysql-mbak"
 
 func SetConfig(config *Config) error {
 
-    if err := ReadHostsConfig(config); err != nil { return err }
-    if err := ReadS3Config(config);    err != nil { return err }
+    if err := ReadHostsConfig(config);  err != nil { return err }
+    if err := ReadS3Config(config);     err != nil { return err }
+//    if err := ReadSMTPConfig(config);   err != nil { return err }
 
     return nil
 
@@ -99,3 +101,35 @@ func ReadS3Config(config *Config) error {
 
     return nil
 }
+
+//func ReadSMTPConfig(config *Config) error {
+//    config.SMTPConfig.Active = false
+//    smtpFile   := fmt.Sprintf("%s/smtp.json", CONF_DIR)
+//
+//    logger.Debug("checking if file %s exists", smtpFile)
+//    if _, err := os.Stat(smtpFile); err != nil {
+//        logger.Info("email functionality disabled. No SMTP settings found")
+//        return nil
+//    }
+//
+//    logger.Debug("reading file %s", smtpFile)
+//    raw, readErr := ioutil.ReadFile(smtpFile)
+//    if readErr != nil {
+//        return fmt.Errorf("failed to read config file %s", smtpFile)
+//    }
+//
+//    logger.Debug("decoding JSON from %s", smtpFile)
+//    jsonErr := json.Unmarshal(raw, &config.SMTPConfig)
+//    if jsonErr != nil {
+//        return fmt.Errorf("invalid json in file %s", smtpFile)
+//    }
+//
+//    if config.SMTPConfig.Hostname == "" || config.SMTPConfig.Username == "" || config.SMTPConfig.Password == "" ||  len(config.SMTPConfig.Recipients) == 0 {
+//        return fmt.Errorf("missing SMTP settings")
+//    }
+//
+//    config.SMTPConfig.Active = true
+//    logger.Info("SMTP active. Sending mail to %v", config.SMTPConfig.Recipients)
+//
+//    return nil
+//}

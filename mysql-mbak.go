@@ -10,6 +10,7 @@ var (
     showHelp    bool
     config      Config
     logger      *Logger
+//    mailer      *Mailer
 )
 
 func init() {
@@ -25,6 +26,8 @@ func main() {
 
     logger = NewLogger()
     logger.SetVerbose(verbose)
+
+//    mailer = NewMailer()
 
     fmt.Println("MySQL mBak")
     logger.Debug("verbose mode enabled")
@@ -50,6 +53,23 @@ func main() {
     if bkpErr != nil {
         logger.Fatal(bkpErr.Error())
     }
+
+//    logger.Info("sending confirmation email")
+
+//    var message string
+
+//    message = "Database backup was successful\n"
+//
+//    for _, host := range config.Connections {
+//        message = fmt.Sprintf("%s\nhost: %s:%d\n", message, host.Hostname, host.Port)
+//        for _, db := range host.Databases {
+//            message = fmt.Sprintf("%s> %s\n", message, db)
+//        }
+//    }
+
+//    if err := mailer.Send(message); err != nil {
+//        logger.Error(err.Error())
+//    }
 
     logger.Info("backup complete!")
 

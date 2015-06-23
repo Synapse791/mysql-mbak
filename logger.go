@@ -26,6 +26,14 @@ func (l Logger) Fatal(line string, args... interface{}) {
     level := "FATAL"
     fLine := fmt.Sprintf(line, args...)
     fmt.Fprintf(os.Stderr, LOG_FORMAT, level, fLine)
+
+//    if config.SMTPConfig.Active {
+//        l.Info("sending failure email")
+//        if err := mailer.Send("failed to backup database(s)\n\n%s", fLine); err != nil {
+//            logger.Error(err.Error())
+//        }
+//    }
+
     os.Exit(1)
 }
 

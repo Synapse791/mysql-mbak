@@ -55,13 +55,29 @@ func main() {
     }
 
     logger.Info("sending confirmation email")
+    if err := SendConfirmationEmail(); err != nil {
+        logger.Error(err.Error())
+    }
 
+    logger.Info("backup complete!")
+
+}
+
+func SendConfirmationEmail() error {
     var message string
+    var path    string
 
     message = "Database backup was successful\n"
 
     for _, host := range config.Connections {
-        message = fmt.Sprintf("%s\nhost: %s:%d\n", message, host.Hostname, host.Port)
+
+        if host.LocalDir != "" {
+            path = host.LocalDir
+        } else {
+            path = fmt.Sprintf("s3://%s%s", host.S3Bucket, host.S3Path)
+        }
+
+        message = fmt.Sprintf("%s\nhost: %s:%d -> %s\n", message, host.Hostname, host.Port, path)
         for _, db := range host.Databases {
             message = fmt.Sprintf("%s> %s\n", message, db)
         }
@@ -71,6 +87,5 @@ func main() {
         logger.Error(err.Error())
     }
 
-    logger.Info("backup complete!")
-
+    return nil
 }

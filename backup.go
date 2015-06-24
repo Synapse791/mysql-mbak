@@ -4,6 +4,7 @@ import (
     "github.com/keighl/barkup"
     "fmt"
     "strconv"
+    "time"
 )
 
 func RunBackupProcess() error {
@@ -29,14 +30,22 @@ func RunBackup(host ConnectionConfig, dbName string) error {
 
         s3 := BuildS3Config(host.S3Bucket)
 
-        logger.Debug("backing up to s3 bucket: %s", host.S3Bucket)
-        if err := mysql.Export().To(host.S3Path, s3); err != nil {
+        t := time.Now().UTC()
+
+        path := fmt.Sprintf("%s%d/%s/%d/", host.S3Path, t.Year(), t.Month().String(), t.Day())
+
+        logger.Debug("backing up to s3 bucket: %s", path)
+        if err := mysql.Export().To(path, s3); err != nil {
             return fmt.Errorf("failed to run backup for %s:%d/%s\n%s", host.Hostname, host.Port, dbName, err.Error())
         }
 
     } else if host.LocalDir != "" {
 
-        logger.Debug("backing up to local directory: %s", host.LocalDir)
+        t := time.Now().UTC()
+
+        path := fmt.Sprintf("%s%d/%s/%d/", host.LocalDir, t.Year(), t.Month().String(), t.Day())
+
+        logger.Debug("backing up to local directory: %s", path)
         if err := mysql.Export().To(host.LocalDir, nil); err != nil {
             return fmt.Errorf("failed to run backup for %s:%d/%s\n%s", host.Hostname, host.Port, dbName, err.Error())
         }

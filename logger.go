@@ -66,3 +66,8 @@ func (l Logger) Usage() {
     flag.PrintDefaults()
     os.Exit(0)
 }
+
+func (l Logger) Version() {
+    fmt.Fprintf(os.Stdout, "  version: %s\n", VERSION)
+    os.Exit(0)
+}

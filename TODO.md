@@ -1,4 +1,5 @@
 TODO list:
+* Add `-version` flag and version.go
 * Tests
 * Config check flag - should test JSON syntax, TCP connections and MySQL logins
 * Config build script

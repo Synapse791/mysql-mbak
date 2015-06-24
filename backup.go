@@ -43,7 +43,7 @@ func RunBackup(host ConnectionConfig, dbName string) error {
 
     } else {
 
-        return fmt.Errorf("no storage destination specified for %s:%d/%s. Must spcify (local_directory) or (s3_bucket and s3_path)", host.Hostname, host.Port, dbName)
+        return fmt.Errorf("no storage destination specified for %s:%d/%s. Must specify (local_directory) or (s3_bucket and s3_path)", host.Hostname, host.Port, dbName)
 
     }
 

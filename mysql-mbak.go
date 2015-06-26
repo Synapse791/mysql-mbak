@@ -6,16 +6,23 @@ import (
 )
 
 var (
+    testConfig  bool
     verbose     bool
     showHelp    bool
+    version     bool
     config      Config
     logger      *Logger
     mailer      *Mailer
 )
 
 func init() {
+    flag.BoolVar(&testConfig, "t", false, "test the config files")
+    flag.BoolVar(&testConfig, "test-config", false, "test the config files")
+
     flag.BoolVar(&verbose, "v", false, "enable verbose logging")
     flag.BoolVar(&verbose, "verbose", false, "enable verbose logging")
+
+    flag.BoolVar(&version, "version", false, "print version information")
 
     flag.BoolVar(&showHelp, "h", false, "print usage information")
     flag.BoolVar(&showHelp, "help", false, "print usage information")
@@ -33,7 +40,8 @@ func main() {
     logger.Debug("verbose mode enabled")
 
 
-    if showHelp { logger.Usage() }
+    if showHelp { logger.Usage()   }
+    if version  { logger.Version() }
 
     var confErr error
 
@@ -42,11 +50,13 @@ func main() {
         logger.Fatal(confErr.Error())
     }
 
-    logger.Info("config set")
-
     checkErr := CheckAllConnections()
     if checkErr != nil {
         logger.Fatal(checkErr.Error())
+    }
+
+    if testConfig {
+        logger.ExitOk("config test successful")
     }
 
     bkpErr := RunBackupProcess()

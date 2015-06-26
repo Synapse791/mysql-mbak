@@ -60,9 +60,21 @@ func (l Logger) Debug(line string, args... interface{}) {
     return
 }
 
+func (l Logger) ExitOk(line string, args... interface{}) {
+    level := "   OK"
+    fLine := fmt.Sprintf(line, args...)
+    fmt.Fprintf(os.Stdout, LOG_FORMAT, level, fLine)
+    os.Exit(0)
+}
+
 func (l Logger) Usage() {
     fmt.Println("  Backup multiple MySQL hosts and Databases from one place\n")
     fmt.Println("Usage:")
     flag.PrintDefaults()
+    os.Exit(0)
+}
+
+func (l Logger) Version() {
+    fmt.Fprintf(os.Stdout, "  version: %s\n", VERSION)
     os.Exit(0)
 }

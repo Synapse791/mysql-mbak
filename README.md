@@ -4,19 +4,16 @@
 MySQL mBak is a tool for backing up multiple MySQL databases on multiple hosts. The backups are outputted as a .tar.gz archive and can either be stored locally on the machine or in Amazon S3.
 
 ### Installation
-To install, download the latest release from the releases page and move the binary file to the `/usr/bin/` directory. Use the example config files to create your config files in the `/etc/mysql-mbak/` directory.
+To install, download the latest `mysql-mbak` binary from the [releases page](https://github.com/Synapse791/mysql-mbak/releases) and move the binary file to the `/usr/bin/` directory. Use the example config files to create your config files in the `/etc/mysql-mbak/` directory.
 
-```bash
-sudo mv mysql-mbak /usr/bin/
-sudo chmod 755 /usr/bin/mysql-mbak
-sudo mkdir /etc/mysql-mbak
-sudo touch /etc/mysql-mbak/hosts.json
-```
+Or if you're lazy run, as root, the `install.sh` script.
 
 ### Usage
-All the config for MySQL mBak is stored in the config files. There are only two command line flags,
-* `-v|-verbose`, which will enable the verbose output mode
-* `-h|-help` which will output the usage information.
+All the config for MySQL mBak is stored in the config files. There are three command line flags,
+* `-h|-help`        - print usage information
+* `-t|-test-config` - test the config files
+* `-v|-verbose`     - enable verbose logging
+* `-version`        - print version information
 
 ### Developing
 
@@ -43,18 +40,36 @@ This file contains the information about hosts, including where to store the bac
 
 **note** - `local_directory` and `s3_path` must both start and end with a `/`.
 
-```json
+```
 [
   {
-    "s3_bucket"       : "BUCKET_NAME",
-    "s3_path"         : "PATH_IN_BUCKET",
-    "local_directory" : "LOCAL_OUTPUT_FOLDER",
-    "hostname"        : "MYSQL_IP",
-    "port"            : MYSQL_PORT,
-    "username"        : "MYSQL_USER",
-    "password"        : "MYSQL_PASSWORD",
+    // string - S3 bucket name
+    "s3_bucket"       : "",
+
+    // string - path to store archive in S3 bucket.
+    // MUST START AND END WITH /
+    "s3_path"         : "",
+
+    // string - path to store archive on your local machine.
+    // MUST START AND END WITH /
+    "local_directory" : "",
+
+    // string - IP address of your MySQL server
+    "hostname"        : "",
+
+    // int    - port that MySQL is listening on
+    "port"            : ,
+
+    // string - user to access the MySQL database
+    "username"        : "",
+
+    // string - password for the user above
+    "password"        : "",
+
+    // string array - list of databases to backup
     "databases"       : [
-      "DATABASE_1",
+      "",
+      "",
       ...
     ]
   }
@@ -64,26 +79,40 @@ This file contains the information about hosts, including where to store the bac
 ##### s3.json
 This file contains the details required to upload to an S3 bucket.
 
-```json
+```
 {
-  "region"        : "AWS_REGION",
-  "access_key"    : "AWS_ACCESS_KEY",
-  "client_secret" : "AWS_SECRET_KEY"
+  // string - AWS region your bucket is located
+  "region"        : "",
+
+  // string - your AWS Access Key
+  "access_key"    : "",
+
+  // string - your AWS Secret Key
+  "client_secret" : ""
 }
 ```
 
 ##### smtp.json
 If this file is found in the config directory, SMTP will be enabled and you can notify any group of email contacts with errors or successful backups.
 
-```json
+```
 {
-  "hostname"   : "SMTP_SERVER_ADDRESS",
-  "username"   : "SMTP_USER",
-  "password"   : "SMTP_PASSWORD", 
-  "port"       : SMTP_PORT,
+  // string - address or IP of your SMTP server
+  "hostname"   : "",
+
+  // string - username to access the SMTP server. Also used as from address
+  "username"   : "",
+
+  // string - password for the above user
+  "password"   : "",
+
+  // int    - port the SMTP server is listening on
+  "port"       : ,
+
+  // string array - list of email recipients
   "recipients" : [ 
-    "RECIPIENT_1",
-    "RECIPIENT_2",
+    "",
+    "",
     ...
   ]
 }

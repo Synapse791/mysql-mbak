@@ -10,9 +10,10 @@ Or if you're lazy run, as root, the `install.sh` script.
 
 ### Usage
 All the config for MySQL mBak is stored in the config files. There are three command line flags,
-* `-v|-verbose`, which will enable the verbose output mode
-* `-h|-help` which will output the usage information.
-* `-version` which will output the current version number.
+* `-h|-help`        - print usage information
+* `-t|-test-config` - test the config files
+* `-v|-verbose`     - enable verbose logging
+* `-version`        - print version information
 
 ### Developing
 

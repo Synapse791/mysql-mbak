@@ -1,6 +1,7 @@
 ## v1.1
 * Added `-version` flag
 * Added date subfolder structure for archive storage
+* Added `-t|-test-config` flag to test config
 
 Pull Requests:
 * Merge pull request #3 from moebrowne/master - Install Shell Script

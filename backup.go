@@ -80,7 +80,18 @@ func BuildS3Config(bucket string) *barkup.S3 {
 func GetDateStructure() string {
     t := time.Now().UTC()
 
-    s := fmt.Sprintf("%d/%s/%d/", t.Year(), t.Month().String(), t.Day())
+    var dayInt int
+    var dayStr string
+
+    dayInt = t.Day()
+
+    if dayInt < 10 {
+        dayStr = fmt.Sprintf("0%d", dayInt)
+    } else {
+        dayStr = fmt.Sprintf("%d", dayInt)
+    }
+
+    s := fmt.Sprintf("%d/%s/%s/", t.Year(), t.Month().String(), dayStr)
 
     return s
 }

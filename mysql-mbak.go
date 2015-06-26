@@ -82,9 +82,9 @@ func SendConfirmationEmail() error {
     for _, host := range config.Connections {
 
         if host.LocalDir != "" {
-            path = host.LocalDir
+            path = fmt.Sprintf("%s%s", host.LocalDir, GetDateStructure())
         } else {
-            path = fmt.Sprintf("s3://%s%s", host.S3Bucket, host.S3Path)
+            path = fmt.Sprintf("s3://%s%s%s", host.S3Bucket, host.S3Path, GetDateStructure())
         }
 
         message = fmt.Sprintf("%s\nhost: %s:%d -> %s\n", message, host.Hostname, host.Port, path)

@@ -1,3 +1,7 @@
+## v1.2
+
+Pull Requests:
+
 ## v1.1
 * Added `-version` flag
 * Added date subfolder structure for archive storage

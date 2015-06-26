@@ -1,4 +1,5 @@
 ## v1.2
+* Added full path to email notification
 
 Pull Requests:
 

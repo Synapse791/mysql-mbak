@@ -93,7 +93,7 @@ func SendConfirmationEmail() error {
         }
     }
 
-    if err := mailer.Send(message); err != nil {
+    if err := mailer.Send("Successful Backup", message); err != nil {
         logger.Error(err.Error())
     }
 

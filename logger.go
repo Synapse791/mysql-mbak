@@ -29,7 +29,7 @@ func (l Logger) Fatal(line string, args... interface{}) {
 
     if config.SMTPConfig.Active {
         l.Info("sending failure email")
-        if err := mailer.Send("failed to backup database(s)\n\n%s", fLine); err != nil {
+        if err := mailer.Send("FAILED BACKUP", "failed to backup database(s)\n\n%s", fLine); err != nil {
             logger.Error(err.Error())
         }
     }

@@ -30,9 +30,7 @@ func RunBackup(host ConnectionConfig, dbName string) error {
 
         s3 := BuildS3Config(host.S3Bucket)
 
-        t := time.Now().UTC()
-
-        path := fmt.Sprintf("%s%d/%s/%d/", host.S3Path, t.Year(), t.Month().String(), t.Day())
+        path := fmt.Sprintf("%s%s", host.S3Path, GetDateStructure())
 
         logger.Debug("backing up to s3 bucket: %s", path)
         if err := mysql.Export().To(path, s3); err != nil {
@@ -41,9 +39,7 @@ func RunBackup(host ConnectionConfig, dbName string) error {
 
     } else if host.LocalDir != "" {
 
-        t := time.Now().UTC()
-
-        path := fmt.Sprintf("%s%d/%s/%d/", host.LocalDir, t.Year(), t.Month().String(), t.Day())
+        path := fmt.Sprintf("%s%s", host.LocalDir, GetDateStructure())
 
         logger.Debug("backing up to local directory: %s", path)
         if err := mysql.Export().To(host.LocalDir, nil); err != nil {
@@ -79,4 +75,12 @@ func BuildS3Config(bucket string) *barkup.S3 {
         ClientSecret:   config.S3Config.ClientSecret,
         Bucket:         bucket,
     }
+}
+
+func GetDateStructure() string {
+    t := time.Now().UTC()
+
+    s := fmt.Sprintf("%d/%s/%d/", t.Year(), t.Month().String(), t.Day())
+
+    return s
 }

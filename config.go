@@ -119,7 +119,7 @@ func ReadS3Config(config *Config) error {
     logger.Debug("decoding JSON from %s", s3File)
     jsonErr := json.Unmarshal(rawS3, &config.S3Config)
     if jsonErr != nil {
-        return fmt.Errorf("invalid json in file %s", s3File)
+        return fmt.Errorf("invalid JSON in file %s", s3File)
     }
 
     return nil
@@ -144,7 +144,7 @@ func ReadSMTPConfig(config *Config) error {
     logger.Debug("decoding JSON from %s", smtpFile)
     jsonErr := json.Unmarshal(raw, &config.SMTPConfig)
     if jsonErr != nil {
-        return fmt.Errorf("invalid json in file %s", smtpFile)
+        return fmt.Errorf("invalid JSON in file %s", smtpFile)
     }
 
     if config.SMTPConfig.Hostname == "" || config.SMTPConfig.Username == "" || config.SMTPConfig.Password == "" ||  len(config.SMTPConfig.Recipients) == 0 {

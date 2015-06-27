@@ -9,7 +9,7 @@ To install, download the latest `mysql-mbak` binary from the [releases page](htt
 Or if you're lazy run, as root, the `install.sh` script.
 
 ### Usage
-All the config for MySQL mBak is stored in the config files. There are three command line flags,
+All the config for MySQL mBak is stored in the config files. There are four command line flags,
 * `-h|-help`        - print usage information
 * `-t|-test-config` - test the config files
 * `-v|-verbose`     - enable verbose logging
